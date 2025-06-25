@@ -19,6 +19,30 @@ ChurnMate will:
 - Summarize your dataset
 - Let you chat with an AI assistant about churn reduction, customer growth, and retention strategies
 """)
+import io
+
+# Add a richer sample dataset
+sample_data = pd.DataFrame({
+    "CustomerID": ["C001", "C002", "C003", "C004", "C005", "C006", "C007"],
+    "Gender": ["Female", "Male", "Female", "Male", "Female", "Male", "Female"],
+    "Age": [25, 31, 40, 29, 33, 45, 27],
+    "SubscriptionType": ["Basic", "Premium", "Standard", "Standard", "Premium", "Basic", "Premium"],
+    "MonthlyFee": [29.99, 59.99, 39.99, 39.99, 59.99, 29.99, 59.99],
+    "JoinDate": ["2023-01-10", "2022-05-20", "2021-09-15", "2023-03-05", "2022-11-01", "2021-12-12", "2023-04-10"],
+    "Churn": ["No", "Yes", "No", "No", "Yes", "No", "Yes"]
+})
+
+# Convert to downloadable CSV
+sample_csv = io.StringIO()
+sample_data.to_csv(sample_csv, index=False)
+
+# Add download button
+st.sidebar.download_button(
+    label="📥 Download Sample Customer Data",
+    data=sample_csv.getvalue(),
+    file_name="sample_customer_data.csv",
+    mime="text/csv"
+)
 
 uploaded_file = st.sidebar.file_uploader("Upload CSV", type=["csv"])
 df = None
