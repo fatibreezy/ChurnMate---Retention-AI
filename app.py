@@ -47,7 +47,7 @@ if user_input:
         "Content-Type": "application/json"
     }
     body = {
-        "model": "openchat/openchat-3.5",
+        "model": "mistralai/mistral-7b-instruct",
         "messages": st.session_state.chat_history
     }
     response = requests.post(chat_endpoint, headers=headers, data=json.dumps(body))
