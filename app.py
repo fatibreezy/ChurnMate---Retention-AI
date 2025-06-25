@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import requests
 import json
-from utils.churn_analysis import compute_churn_rate, basic_summary  # ✅ Make sure this is at the top with no space before it
+from utils.churn_analysis import compute_churn_rate,basic_summary# ✅ Make sure this is at the top with no space before it
 
 st.set_page_config(page_title="ChurnMate - AI Retention Assistant", layout="centered")
 st.title("🤖 ChurnMate: AI-Powered Customer Retention Assistant")
