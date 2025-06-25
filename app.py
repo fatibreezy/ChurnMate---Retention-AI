@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import requests
 import json
-from utils.churn_analysis import compute_churn_rate, basic_summary
+from utils.churn_analysis import compute_churn_rate, basic_summary  # ✅ Make sure this is at the top with no space before it
 
 st.set_page_config(page_title="ChurnMate - AI Retention Assistant", layout="centered")
 st.title("🤖 ChurnMate: AI-Powered Customer Retention Assistant")
@@ -20,6 +20,7 @@ ChurnMate will:
 - Summarize your dataset
 - Let you chat with an AI assistant about churn reduction, customer growth, and retention strategies
 """)
+
 uploaded_file = st.sidebar.file_uploader("Upload CSV", type=["csv"])
 df = None
 
@@ -78,15 +79,19 @@ with col2:
 
 if user_input:
     st.session_state.chat_history.append({"role": "user", "content": user_input})
+
     headers = {
         "Authorization": f"Bearer {OPENROUTER_API_KEY}",
         "Content-Type": "application/json"
     }
+
     body = {
         "model": "mistralai/mistral-7b-instruct",
         "messages": st.session_state.chat_history
     }
+
     response = requests.post(chat_endpoint, headers=headers, data=json.dumps(body))
+
     if response.status_code == 200:
         reply = response.json()["choices"][0]["message"]["content"]
         st.session_state.chat_history.append({"role": "assistant", "content": reply})
