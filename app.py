@@ -37,6 +37,32 @@ if uploaded_file:
     churn_text, churn_rate = compute_churn_rate(df)
     st.info(churn_text)
 
+    # ✅ Automatically get AI advice after churn rate is displayed
+    st.markdown("### 💡 AI Retention Advice")
+    with st.spinner("Generating AI-powered business advice..."):
+        advice_prompt = f"My churn rate is {churn_rate:.2f}%. What advice can you give to reduce churn and improve customer retention?"
+
+        headers = {
+            "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+            "Content-Type": "application/json"
+        }
+
+        advice_messages = [
+            {"role": "system", "content": "You are an expert in customer churn, retention strategies, and business growth."},
+            {"role": "user", "content": advice_prompt}
+        ]
+
+        advice_response = requests.post(chat_endpoint, headers=headers, data=json.dumps({
+            "model": "mistralai/mistral-7b-instruct",
+            "messages": advice_messages
+        }))
+
+        if advice_response.status_code == 200:
+            ai_advice = advice_response.json()["choices"][0]["message"]["content"]
+            st.success(f"**🤖 ChurnMate says:** {ai_advice}")
+        else:
+            st.warning("Could not generate advice at the moment. Try again later or use the chatbot.")
+
 st.markdown("---")
 st.subheader("💬 Chat with ChurnMate")
 
