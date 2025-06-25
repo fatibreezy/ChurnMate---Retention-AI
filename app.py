@@ -47,7 +47,7 @@ if user_input:
         "Content-Type": "application/json"
     }
     body = {
-        "model": "openai/gpt-3.5-turbo",
+        "model": "openchat/openchat-3.5",
         "messages": st.session_state.chat_history
     }
     response = requests.post(chat_endpoint, headers=headers, data=json.dumps(body))
@@ -56,7 +56,8 @@ if user_input:
         st.session_state.chat_history.append({"role": "assistant", "content": reply})
         st.markdown(f"**🤖 ChurnMate:** {reply}")
     else:
-        st.error("❌ Failed to fetch response. Please check your API key or try again later.")
+        st.error("❌ Failed to fetch response. Please try again later.")
+        st.write("Debug info:", response.text)  
 
 if st.session_state.chat_history:
     with st.expander("🕒 Conversation History"):
