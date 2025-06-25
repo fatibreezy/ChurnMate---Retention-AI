@@ -13,6 +13,13 @@ chat_endpoint = "https://openrouter.ai/api/v1/chat/completions"
 
 # Sidebar
 st.sidebar.header("📤 Upload Your Customer Data")
+st.sidebar.markdown("""
+Upload a customer dataset (CSV) containing at least a **Churn** column.  
+ChurnMate will:
+- Automatically analyze churn and retention rates
+- Summarize your dataset
+- Let you chat with an AI assistant about churn reduction, customer growth, and retention strategies
+""")
 uploaded_file = st.sidebar.file_uploader("Upload CSV", type=["csv"])
 df = None
 
@@ -39,6 +46,9 @@ if "chat_history" not in st.session_state:
     ]
 
 user_input = st.text_input("Ask me anything about churn, retention, or customer success:")
+col1, col2, col3 = st.columns([1, 2, 1])
+with col2:
+    submit = st.button("🤖 Ask ChurnMate")
 
 if user_input:
     st.session_state.chat_history.append({"role": "user", "content": user_input})
